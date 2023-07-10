@@ -5,17 +5,13 @@ CREATE TABLE Genres (
 
 CREATE TABLE Artists (
   artist_id SERIAL PRIMARY KEY,
-  name VARCHAR(255),
-  genre_id INTEGER REFERENCES Genres(genre_id),
-  CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES Genres(genre_id)
+  name VARCHAR(255)
 );
 
 CREATE TABLE Albums (
   album_id SERIAL PRIMARY KEY,
   title VARCHAR(255),
-  year INTEGER CHECK (year >= 1900),
-  artist_id INTEGER REFERENCES Artists(artist_id),
-  CONSTRAINT fk_artist FOREIGN KEY (artist_id) REFERENCES Artists(artist_id)
+  year INTEGER CHECK (year >= 1900)
 );
 
 CREATE TABLE Tracks (
@@ -37,4 +33,14 @@ CREATE TABLE CollectionTracks (
   collection_id INTEGER REFERENCES Collections(collection_id),
   track_id INTEGER REFERENCES Tracks(track_id),
   PRIMARY KEY (collection_id, track_id)
+);
+CREATE TABLE ArtistGenre (
+  artist_id INTEGER REFERENCES Collections(artist_id),
+  genre_id  INTEGER REFERENCES Tracks(genre_id,|)
+  PRIMARY KEY (artist_id, genre_id)
+);
+CREATE TABLE AlbumArtists (
+  album_id INTEGER REFERENCES Collections(album_id),
+  artist_id INTEGER REFERENCES Tracks(artist_id),
+  PRIMARY KEY (album_id,artist_id)
 );
